@@ -1,9 +1,8 @@
 
 """
 Credit Risk Prediction API
-==========================
-This FastAPI application deploys the trained XGBoost model as a REST API.
 
+This FastAPI application deploys the trained XGBoost model as a REST API.
 Endpoints:
 - GET  / — confirms the API is running
 - GET  /health  — returns model health status
