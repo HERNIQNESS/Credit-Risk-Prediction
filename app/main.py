@@ -12,9 +12,12 @@ app = FastAPI(
 )
 app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-model = joblib.load(r'C:\Users\User\Desktop\credit-risk-project\models\best_model.pkl')
-scaler = joblib.load(r'C:\Users\User\Desktop\credit-risk-project\models\pipeline.pkl')
-feature_names = joblib.load(r'C:\Users\User\Desktop\credit-risk-project\models\feature_names.pkl')
+import os
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+model = joblib.load(os.path.join(BASE, 'models', 'best_model.pkl'))
+scaler = joblib.load(os.path.join(BASE, 'models', 'pipeline.pkl'))
+feature_names = joblib.load(os.path.join(BASE, 'models', 'feature_names.pkl'))
 
 class LoanApplication(BaseModel):
     customer_id: int
