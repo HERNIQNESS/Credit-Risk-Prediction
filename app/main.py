@@ -1,43 +1,16 @@
-
-"""
-Credit Risk Prediction API
-
-This FastAPI application deploys the trained XGBoost model as a REST API.
-Endpoints:
-- GET  / — confirms the API is running
-- GET  /health  — returns model health status
-- POST /predict — accepts loan application data and returns:
-- prediction =(0 or 1)
-- result (LOW RISK or DEFAULT RISK)
-- default_probability (0 to 1)
-- risk_level =(LOW, MEDIUM, HIGH)
-
-How it works:
-1. Receives loan application data as JSON
-2. Converts it into a dataframe
-3. Aligns features to match what the model was trained on
-4. Runs prediction using the saved XGBoost model
-5. Returns the result 
-
-
-"""
-
-
-
-
-
-
 from fastapi import FastAPI
 from pydantic import BaseModel
 import pandas as pd
 import numpy as np
 import joblib
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Credit Risk Prediction API",
     description="Predicts whether a customer will default on a loan.",
     version="1.0.0"
 )
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 model = joblib.load(r'C:\Users\User\Desktop\credit-risk-project\models\best_model.pkl')
 scaler = joblib.load(r'C:\Users\User\Desktop\credit-risk-project\models\pipeline.pkl')

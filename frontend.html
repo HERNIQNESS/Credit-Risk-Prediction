@@ -251,7 +251,7 @@ async function assessRisk() {
   const today = new Date();
 
   const payload = {
-    student_id: parseInt(document.getElementById('customer_id').value),
+    customer_id: parseInt(document.getElementById('customer_id').value),
     tbl_loan_id: Math.floor(Math.random() * 99999),
     lender_id: parseInt(document.getElementById('lender_id').value),
     Total_Amount: total,
