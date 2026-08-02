@@ -1,19 +1,24 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import pandas as pd
 import numpy as np
 import joblib
-from fastapi.middleware.cors import CORSMiddleware
+import os
+
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 app = FastAPI(
     title="Credit Risk Prediction API",
     description="Predicts whether a customer will default on a loan.",
     version="1.0.0"
 )
-app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
-import os
-BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+templates = Jinja2Templates(directory="app/templates")
 
 model = joblib.load(os.path.join(BASE, 'models', 'best_model.pkl'))
 scaler = joblib.load(os.path.join(BASE, 'models', 'pipeline.pkl'))
@@ -39,8 +44,8 @@ class LoanApplication(BaseModel):
     New_versus_Repeat: str
 
 @app.get("/")
-def root():
-    return {"message": "Credit Risk Prediction API is running"}
+async def root(request: Request):
+    return templates.TemplateResponse(request, "frontend.html")
 
 @app.post("/predict")
 def predict(data: LoanApplication):
