@@ -1,6 +1,5 @@
 # CreditGuard Quantum — AI Credit Risk Predictor
 
-> Built because bad lending decisions shouldn't come down to a gut feeling.
 
 ![CreditGuard Dashboard](screenshot.png)
 
